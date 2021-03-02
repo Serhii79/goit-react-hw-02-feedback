@@ -2,30 +2,49 @@ import React from 'react';
 import FeedbackOptions from './components/FeedbackOptions';
 import Statistics from './components/Statistics';
 
+const Section = ({ title, children }) => (
+  <section>
+
+    <h2 className="title">{title}</h2>
+
+    {children}
+
+  </section>
+)
+
 class App extends React.Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0
   };
+
+  handleClick = (option) => {
+    this.setState(prevState => ({
+      [option]: prevState[option] + 1,
+    }));
+  };
     
-  handleGood = () => {
-    this.setState(prevState => ({
-      good: prevState.good + 1,
-    }));
-   };
+  // handleGood = () => {
+  //   this.setState(prevState => ({
+  //     good: prevState.good + 1,
+  //   }));
+  //  };
 
-  handleNeutral = () => {
-    this.setState(prevState => ({
-      neutral: prevState.neutral + 1,
-    }));
-  };
+  // handleNeutral = () => {
+  //   this.setState(prevState => ({
+  //     neutral: prevState.neutral + 1,
+  //   }));
+  // };
 
-  handleBad = () => {
-    this.setState(prevState => ({
-      bad: prevState.bad + 1,
-    }));
-  };
+  // handleBad = () => {
+  //   this.setState(prevState => ({
+  //     bad: prevState.bad + 1,
+  //   }));
+  // };
+
+
+
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
@@ -40,29 +59,44 @@ class App extends React.Component {
     const { good } = this.state;
     const total = this.countTotalFeedback();
 
-    return total !== 0 ? Math.round((good * 100) / total) : 0;
+    return total ? Math.round((good * 100) / total) : 0;
   };
 
   render() {
     return (
-      <div className="Feedback">
-        <h2 className="title">Please leave feedback</h2>
+      <div>
 
-        <FeedbackOptions
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={["good", "neutral", "bad"]}
+            onLeaveFeedback={this.handleClick}
+            // onLeaveFeedback={this.handle}
+          />
+        </Section>
+
+        
+
+        {/* <FeedbackOptions
           onGood={this.handleGood}
           onNeutral={this.handleNeutral}
           onBad={this.handleBad}
-        />
-          
-        <h2 className="title">Statistics</h2>
+        /> */}
 
-        <Statistics
-          good={this.state.good}
-          neutral={this.state.neutral}
-          bad={this.state.bad}
-          total={this.countTotalFeedback()}
-          positivePercentage={this.countPositiveFeedbackPercentage()}
-        />
+        {/* <Statistics
+          data={this.state}
+        /> */}
+
+        <Section title="Statistics">
+          <Statistics
+            good={this.state.good}
+            neutral={this.state.neutral}
+            bad={this.state.bad}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}
+          />
+        </Section>
+
+        
 
         {/* <p>Total: <span>{this.countTotalFeedback()}</span></p> */}
         {/* <p>Positive feedback: <span>{this.countPositiveFeedbackPercentage()}</span>%</p> */}
@@ -70,5 +104,7 @@ class App extends React.Component {
     )
   }
 }
+
+{/* <Notification message="No feedback given"></Notification> */}
 
 export default App;
