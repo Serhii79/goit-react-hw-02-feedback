@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedbackOptions from './components/FeedbackOptions';
+import FeedbackOptions from './components/FeedbackOptions/FeedbackOptions';
 import Statistics from './components/Statistics';
 
 const Section = ({ title, children }) => (
